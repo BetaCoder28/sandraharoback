@@ -11,6 +11,24 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+X_FRAME_OPTIONS = 'DENY'  # Impide que la página se cargue en un iframe
+
+
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Evita que los navegadores interpreten archivos de forma errónea
+
+
+#Strict-Transport-Security (HSTS - Obliga HTTPS)
+SECURE_HSTS_SECONDS = 31536000  # 1 año
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Aplica a subdominios
+SECURE_HSTS_PRELOAD = True  # Permite incluir en listas de preload de navegadores
+
+#Controla el encabezado Referer
+SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'
+
+
+#Evitar ataques de origen cruzado
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

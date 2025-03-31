@@ -1,24 +1,20 @@
 from rest_framework import serializers
-from service.serializers import ServiceSerializer
+from service.serializers import ServiceSerializer  # Asegúrate de que el serializer de Service esté importado
 from .models import Citas
 
-
 class CitasSerializer(serializers.ModelSerializer):
-    # Muestra el nombre del servicio en lugar del ID (opcional)
-    servicio_nombre = serializers.CharField(source='servicio.service', read_only=True)
-    
-    class Meta:
-        model = Citas
-        fields = ['id', 'date', 'schedule', 'servicio', 'servicio_nombre']
-        # Si quieres permitir crear citas con el ID del servicio:
-        extra_kwargs = {
-            'servicio': {'write_only': True}
-        }
+    # Mostrar los nombres de los servicios relacionados
+    servicio_nombres = serializers.SerializerMethodField()
 
-# Opcional: Si prefieres nested relationships
-class CitasNestedSerializer(serializers.ModelSerializer):
-    servicio = ServiceSerializer(read_only=True)
-    
     class Meta:
         model = Citas
-        fields = ['id', 'date', 'schedule', 'servicio']
+        fields = ['id', 'date', 'schedule', 'servicios', 'usuario', 'servicio_nombres']
+
+    def get_servicio_nombres(self, obj):
+        # Devuelve una lista de nombres de los servicios relacionados
+        return [service.service for service in obj.servicios.all()]
+
+    # Si necesitas permitir crear citas con los IDs de los servicios:
+    extra_kwargs = {
+        'servicios': {'write_only': True}  # Usar el campo `servicios` para escribir los IDs
+    }
