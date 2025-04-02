@@ -16,13 +16,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('service', models.TextField()),
-<<<<<<< HEAD
-                
-=======
                 ('description', models.TextField()),
                 ('price', models.FloatField()),
                 ('time', models.TextField()),
->>>>>>> upstream/main
             ],
         ),
     ]
